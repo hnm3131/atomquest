@@ -1,0 +1,30 @@
+﻿
+=== TABLE 1 ===
+UoM Type | Description | Formula
+Min (Numeric / %) | Higher is better ΓÇö e.g., Sales Revenue | Achievement ├╖ Target
+Max (Numeric / %) | Lower is better ΓÇö e.g., TAT, Cost | Target ├╖ Achievement
+Timeline | Date-based completion | Completion date vs. Deadline
+Zero | Zero = Success ΓÇö e.g., Safety incidents | If 0 ΓåÆ 100%, else 0%
+
+=== TABLE 2 ===
+Period | Window Opens | Action
+Phase 1 ΓÇö Goal Setting | 1st May | Goal Creation, Submission & Approval
+Q1 Check-in | July | Progress Update ΓÇö Planned vs. Actual
+Q2 Check-in | October | Progress Update ΓÇö Planned vs. Actual
+Q3 Check-in | January | Progress Update ΓÇö Planned vs. Actual
+Q4 / Annual | March / April | Final Achievement Capture
+
+=== TABLE 3 ===
+Role | Responsibilities | Required System Capabilities
+Employee | Draft goals; enter quarterly achievement; update progress status | Create & edit goals pre-submission; view locked goals; input actuals
+Manager (L1) | Review & approve goals; conduct quarterly check-ins; log feedback | Team dashboard; inline editing during approval; comment / feedback logs
+Admin / HR | Configure cycles; manage org hierarchy; oversee completion rates | Cycle management; exception handling; audit logs; goal unlock capability
+
+=== TABLE 4 ===
+# | Parameter | What Evaluators Will Look For
+1 | Functionality of the Portal | Does the portal work end-to-end? Can an employee create goals, a manager approve them, and check-ins be completed without errors?
+2 | Adherence to BRD | Are all Phase 1 and Phase 2 requirements implemented? Are validation rules (weightage = 100%, max 8 goals, min 10%) correctly enforced?
+3 | User Friendliness | Is the UI intuitive for non-technical users? Are workflows logical, error messages helpful, and the experience consistent across roles?
+4 | Presence of Bugs | Does the portal behave predictably under normal and edge-case inputs? Are there no broken flows, data inconsistencies, or unhandled errors?
+5 | Good-to-Have Features | Has the team implemented any bonus features from Section 5? Depth and quality of implementation will be assessed.
+6 | Cost Optimisation | Is the solution architected efficiently? Evaluators will consider infrastructure choices, API call efficiency, caching strategies, and hosting cost awareness.

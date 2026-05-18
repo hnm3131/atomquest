@@ -1,0 +1,130 @@
+# ============================================
+# AtomQuest - Application Configuration
+# ============================================
+
+spring:
+  application:
+    name: atomquest-backend
+
+  # --- Neon DB (PostgreSQL via Pooler) ---
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5          # Neon free tier limits concurrent connections
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 300000          # 5 min — Neon suspends idle branches
+      max-lifetime: 600000          # 10 min — shorter than Neon's 15min idle timeout
+      keepalive-time: 60000
+      connection-test-query: SELECT 1
+      data-source-properties:
+        sslmode: require
+        sslfactory: org.postgresql.ssl.NonValidatingFactory
+
+  # --- JPA / Hibernate ---
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+          batch_size: 25
+        order_inserts: true
+        order_updates: true
+
+  # --- Flyway ---
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: false       # Skip checksum validation (dev mode)
+    out-of-order: true               # Allow migrations to run in any order
+    connect-retries: 5               # Retry on Neon cold-start
+
+  # --- Redis (local Docker) ---
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 4
+          min-idle: 1
+
+  # --- RabbitMQ (local Docker) ---
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+  # --- Mail (Gmail SMTP — Optional but configured) ---
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    test-connection: false        # Do NOT validate SMTP credentials at startup
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
+
+  # --- Jackson ---
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# --- JWT ---
+app:
+  jwt:
+    secret: ${JWT_SECRET:AtomQuest2026SuperSecureJWTSecretKeyChangeInProductionMin256BitsLong}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+  # --- AI / LLM (Groq — OpenAI-compatible fast inference) ---
+  ai:
+    groq-api-key: ${GROQ_API_KEY:}
+    openai-api-key: ${OPENAI_API_KEY:}
+
+# --- Server ---
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# --- Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# --- Logging ---
+logging:
+  level:
+    com.atomquest: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.flywaydb: INFO
+    com.zaxxer.hikari: WARN
